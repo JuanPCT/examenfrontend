@@ -1,42 +1,55 @@
-import React from "react";
+import React, { useState } from "react";
+import { Button, Form } from "react-bootstrap";
 
-export const LoginForm = () => {
+export const LoginForm = ({errors, onSubmitCallback}) => {
+
+  const [username, setUsername] = useState("");
+  const [pass, setPass] = useState("");
+
+  const submitForm = (e) => {
+    e.preventDefault();
+    onSubmitCallback({ username, pass });
+  };
+
   return (
-    <form>
+    <Form onSubmit={submitForm}>
       <div className="divider d-flex align-items-center my-4"></div>
-      <div className="form-outline mb-4">
-        <input
-          type="email"
-          id="form3Example3"
+      <Form.Group control="username" className="form-outline mb-4">
+        <Form.Label for="username" className="form-label">
+          UserName
+        </Form.Label>
+        <Form.Control
+          type="username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
           className="form-control form-control-lg"
-          placeholder="Enter a valid email address"
+          isInvalid={errors.username}
         />
-        <label className="form-label" for="form3Example3">
-          Email address
-        </label>
-      </div>
-
-      <div className="form-outline mb-3">
-        <input
-          type="password"
-          id="form3Example4"
-          className="form-control form-control-lg"
-          placeholder="Enter password"
-        />
-        <label className="form-label" for="form3Example4">
+        <Form.Control.Feedback type="invalid">
+          {errors.username}
+        </Form.Control.Feedback>
+      </Form.Group>
+      <Form.Group control="pass" className="form-outline mb-3">
+        <Form.Label for="pass" className="form-label">
           Password
-        </label>
-      </div>
+        </Form.Label>
+        <Form.Control
+          type="password"
+          value={pass}
+          onChange={(e) => setPass(e.target.value)}
+          className="form-control form-control-lg"
+          isInvalid={errors.pass}
+        />
+        <Form.Control.Feedback type="invalid">
+          {errors.pass}
+        </Form.Control.Feedback>
+      </Form.Group>
 
       <div className="text-center text-lg-start mt-4 pt-2">
-        <button
-          type="button"
-          className="btn btn-primary btn-lg"
-          style={{ paddingLeft: "2.5rem", paddingRight: "2.5rem" }}
-        >
-          Login
-        </button>
+        <Button type="submit" className="btn btn-primary btn-lg">
+          Iniciar sesión
+        </Button>
       </div>
-    </form>
+    </Form>
   );
 };
